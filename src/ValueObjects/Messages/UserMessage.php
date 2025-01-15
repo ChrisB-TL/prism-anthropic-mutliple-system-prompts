@@ -15,7 +15,7 @@ class UserMessage implements Message
     use HasProviderMeta;
 
     /**
-     * @param  array<int, Text|Image>  $additionalContent
+     * @param  array<int, Text|Image|Document>  $additionalContent
      */
     public function __construct(
         protected readonly string $content,

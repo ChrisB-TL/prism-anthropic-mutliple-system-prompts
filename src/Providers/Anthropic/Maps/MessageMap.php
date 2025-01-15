@@ -147,7 +147,7 @@ class MessageMap
     /**
      * @param  Image[]  $parts
      * @param  array<string, mixed>|null  $cache_control
-     * @return array<string, mixed>
+     * @return array<int, mixed>
      */
     protected static function mapImageParts(array $parts, ?array $cache_control = null): array
     {
@@ -171,7 +171,7 @@ class MessageMap
     /**
      * @param  Document[]  $parts
      * @param  array<string, mixed>|null  $cache_control
-     * @return array<string, mixed>
+     * @return array<int, mixed>
      */
     protected static function mapDocumentParts(array $parts, ?array $cache_control = null): array
     {
