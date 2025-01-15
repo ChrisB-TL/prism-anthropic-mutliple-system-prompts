@@ -6,6 +6,7 @@ namespace EchoLabs\Prism\ValueObjects\Messages;
 
 use EchoLabs\Prism\Concerns\HasProviderMeta;
 use EchoLabs\Prism\Contracts\Message;
+use EchoLabs\Prism\ValueObjects\Messages\Support\Document;
 use EchoLabs\Prism\ValueObjects\Messages\Support\Image;
 use EchoLabs\Prism\ValueObjects\Messages\Support\Text;
 
@@ -41,6 +42,16 @@ class UserMessage implements Message
     {
         return collect($this->additionalContent)
             ->where(fn ($part): bool => $part instanceof Image)
+            ->toArray();
+    }
+
+    /**
+     * @return Document[]
+     */
+    public function documents(): array
+    {
+        return collect($this->additionalContent)
+            ->where(fn ($part): bool => $part instanceof Document)
             ->toArray();
     }
 }

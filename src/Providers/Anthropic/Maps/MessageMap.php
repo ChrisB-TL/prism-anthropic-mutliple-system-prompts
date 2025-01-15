@@ -7,6 +7,7 @@ namespace EchoLabs\Prism\Providers\Anthropic\Maps;
 use EchoLabs\Prism\Contracts\Message;
 use EchoLabs\Prism\Enums\Provider;
 use EchoLabs\Prism\ValueObjects\Messages\AssistantMessage;
+use EchoLabs\Prism\ValueObjects\Messages\Support\Document;
 use EchoLabs\Prism\ValueObjects\Messages\Support\Image;
 use EchoLabs\Prism\ValueObjects\Messages\SystemMessage;
 use EchoLabs\Prism\ValueObjects\Messages\ToolResultMessage;
@@ -106,6 +107,7 @@ class MessageMap
                     'cache_control' => $cache_control,
                 ]),
                 ...self::mapImageParts($message->images(), $cache_control),
+                ...self::mapDocumentParts($message->documents(), $cache_control),
             ],
         ];
     }
@@ -160,6 +162,26 @@ class MessageMap
                     'type' => 'base64',
                     'media_type' => $image->mimeType,
                     'data' => $image->image,
+                ],
+                'cache_control' => $cache_control,
+            ]);
+        }, $parts);
+    }
+
+    /**
+     * @param  Document[]  $parts
+     * @param  array<string, mixed>|null  $cache_control
+     * @return array<string, mixed>
+     */
+    protected static function mapDocumentParts(array $parts, ?array $cache_control = null): array
+    {
+        return array_map(function (Document $document) use ($cache_control): array {
+            return array_filter([
+                'type' => 'document',
+                'source' => [
+                    'type' => 'base64',
+                    'media_type' => $document->mimeType,
+                    'data' => $document->document,
                 ],
                 'cache_control' => $cache_control,
             ]);
